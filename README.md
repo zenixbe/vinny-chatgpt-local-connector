@@ -94,16 +94,33 @@ Wil je het strakker houden, dan start je per project een connector.
 
 ## Koppelen in ChatGPT (eenmalig)
 
-1. **Settings → Apps & Connectors → Advanced settings** → zet **Developer mode** aan.
-2. **Create** (nieuwe connector): geef hem een naam (bv. "Lokaal project"), plak de connector-URL en kies
-   **Authentication: No authentication**. De token in de URL is de beveiliging.
-3. Open in een nieuw gesprek het **+**-menu → **Developer mode** en kies je connector.
-4. Vraag bijvoorbeeld: *"Bekijk het project, zoek waarom de login-test faalt, los het op en draai de tests."*
+**Welk abonnement?** (volgens de [OpenAI Help Center](https://help.openai.com/en/articles/12584461-developer-mode-and-mcp-apps-in-chatgpt), nov. 2026)
+
+| Abonnement | Werkt het? |
+|---|---|
+| Business, Enterprise, Edu | Ja, volledig (lezen + schrijven). Bij Business kunnen alleen **admins/owners** een eigen MCP-server toevoegen. |
+| Pro | Alleen lezen/zoeken. ChatGPT kan je code bekijken maar niets aanpassen. |
+| Plus, Free | Niet vermeld door OpenAI, dus reken er niet op. |
+
+Alleen op **chatgpt.com in de browser**, niet in de mobiele app.
+
+Er is **geen aparte "Developer mode"-schakelaar meer**: je voegt de server rechtstreeks toe.
+
+1. Ga naar **[chatgpt.com/plugins](https://chatgpt.com/plugins)** en klik op **+** → **Add custom MCP server**.
+2. Geef een naam (bv. "Lokaal project"). Plak bij **Connection → Server URL** de volledige connector-URL.
+   Kies **Authentication: No authentication**, want de token in de URL is de beveiliging.
+3. Bevestig de risicowaarschuwing ("I understand and want to continue") → **Create as a plugin**, en **installeer** hem daarna.
+4. Typ in een nieuw gesprek **`@`** in het invoerveld en kies je plugin.
+5. Vraag bijvoorbeeld: *"Bekijk het project, zoek waarom de login-test faalt, los het op en draai de tests."*
+
+Bij een **Business/Enterprise-workspace** moet een admin eerst in de workspace-instellingen
+([chatgpt.com/admin/ca](https://chatgpt.com/admin/ca)) de permissie **"Create plugins with MCPs"** toestaan.
 
 ChatGPT vraagt standaard om bevestiging bij schrijfacties. Leestools zijn gemarkeerd als read-only en lopen zonder
 bevestiging.
 
-> De menunamen in ChatGPT veranderen af en toe. Zoek bij twijfel naar "Developer mode" of "Connectors" in de instellingen.
+> OpenAI past dit menu regelmatig aan (eerst "Connectors" + Developer mode, daarna "Apps", nu "Plugins").
+> Vind je het niet, kijk dan in het [Help Center-artikel](https://help.openai.com/en/articles/12584461-developer-mode-and-mcp-apps-in-chatgpt).
 
 ## Ontwikkelen
 

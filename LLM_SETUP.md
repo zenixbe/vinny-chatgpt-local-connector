@@ -144,15 +144,35 @@ time, a new Funnel hostname can take a few minutes before DNS and the certificat
 
 ## Step 7 — Add it to ChatGPT
 
-1. ChatGPT → **Settings → Apps & Connectors → Advanced settings** → turn on **Developer mode**.
-   (Requires a ChatGPT plan that offers developer mode. Menu names change sometimes, so look for
-   "Developer mode" or "Connectors".)
-2. Click **Create** / add a connector: name it e.g. "Local project", paste the full connector URL, and set
-   **Authentication: No authentication**. The token in the URL is the authentication.
-3. In a new chat: **+** menu → **Developer mode** → enable the connector.
-4. Test prompt: *"Call project_overview and summarize this project."*
+**First ask which ChatGPT plan the user has.** According to OpenAI's Help Center
+(https://help.openai.com/en/articles/12584461-developer-mode-and-mcp-apps-in-chatgpt, Nov 2026):
+
+| Plan | Result |
+|---|---|
+| Business, Enterprise, Edu | Full support (read + write tools). In a Business workspace only **admins/owners** can add custom MCP servers. On Enterprise/Edu, admins can grant it to members via RBAC. |
+| Pro | **Read/fetch only.** ChatGPT can read and search the code but can't edit files or run commands. Tell the user before they spend time on it. |
+| Plus, Free | Not listed by OpenAI. Assume it's unavailable and say so honestly. |
+
+Web only (chatgpt.com in a browser), not the mobile app.
+
+**There's no separate "Developer mode" toggle anymore.** Older guides (including earlier versions of this
+file) say *Settings → Apps & Connectors → Advanced → Developer mode*. That path is gone. The current flow:
+
+1. Open **https://chatgpt.com/plugins**, click the **+** button → **Add custom MCP server**.
+2. Enter a name (e.g. "Local project"). Under **Connection → Server URL**, paste the full connector URL.
+   Set **Authentication: No authentication**, because the token in the URL is the authentication.
+3. Accept the risk warning ("I understand and want to continue") → **Create as a plugin**, then **install** it.
+4. In a new chat, type **`@`** in the prompt box and pick the plugin.
+5. Test prompt: *"Call project_overview and summarize this project."*
+
+Business/Enterprise workspace: if **+ → Add custom MCP server** is missing, an admin has to enable the permission
+**"Create plugins with MCPs"** in workspace settings (https://chatgpt.com/admin/ca). Check the user's role under
+**Workspace settings → Members**.
 
 ChatGPT asks for confirmation before write actions. That's expected.
+
+OpenAI renames this UI often ("Connectors" → "Apps" → "Plugins"). If the user's screen doesn't match, ask what
+they see, and point them to the Help Center article above.
 
 ## Troubleshooting
 
@@ -165,6 +185,7 @@ ChatGPT asks for confirmation before write actions. That's expected.
 | `[funnel] … Access denied` / needs sudo | `sudo tailscale set --operator=$USER`, or run `sudo tailscale funnel 8787` in another terminal and start the server without `--funnel` |
 | `[funnel] … Funnel is not enabled` + a link | Open the link, approve Funnel, restart |
 | curl `ok` works but initialize fails | Check that the full `/mcp/<token>` path was copied; a wrong token returns `Not found` |
+| Can't find "Developer mode" | It no longer exists; use chatgpt.com/plugins → + → Add custom MCP server (step 7). Not visible at all → check the plan / workspace admin permission |
 | ChatGPT: "error connecting"/"no tools" | Run step 6 again; make sure the server terminal is still running; remove and re-create the connector |
 | ChatGPT says file access is blocked | Path is outside `--root`, a secret file (`.env`, keys), or inside `.git/`. That's by design |
 | Token leaked | Restart with `--rotate-token` and update the URL in ChatGPT |
